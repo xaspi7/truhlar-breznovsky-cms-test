@@ -7,7 +7,7 @@ permissions:
   contents: write
 jobs:
   import:
-    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message == 'Activate one-time sandbox import'
+    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message == 'Run isolated CMS import after syntax fix'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout new repository
