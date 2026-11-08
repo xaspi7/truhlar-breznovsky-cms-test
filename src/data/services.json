@@ -1,0 +1,34 @@
+{
+  "eyebrow": "Co dělám",
+  "title": "Řemeslo bez kompromisů",
+  "description": "Každý kus je originál. Nepoužívám šablony, ale naslouchám prostoru a vašim potřebám.",
+  "items": [
+    {
+      "title": "Kuchyně na míru",
+      "image": "/images/08.jpg",
+      "description": "Srdce domova, které funguje. Ergonomické, odolné a navržené tak, aby se v nich žilo, nejen vařilo.",
+      "highlights": [
+        "Kvalitní kování Blum",
+        "Pracovní desky kámen/masiv"
+      ]
+    },
+    {
+      "title": "Vestavěné skříně",
+      "image": "/images/03.jpg",
+      "description": "Využití každého centimetru. Chytré úložné systémy do nik, podkroví i volného prostoru.",
+      "highlights": [
+        "Posuvné i křídlové systémy",
+        "Vnitřní organizéry"
+      ]
+    },
+    {
+      "title": "Solitérní nábytek",
+      "image": "/images/05.jpg",
+      "description": "Jídelní stoly z masivu, komody, knihovny. Kusy, které se stávají rodinným dědictvím.",
+      "highlights": [
+        "Dub, Ořech, Jasan",
+        "Olejové a voskové úpravy"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,387 @@
+---
+import home from "../data/home.json";
+import about from "../data/about.json";
+import services from "../data/services.json";
+import gallery from "../data/gallery.json";
+import contact from "../data/contact.json";
+
+// Obsah načítáme z JSON souborů, které upravuje Decap CMS.
+const mediaPath = (path) => {
+  const prefix = import.meta.env.BASE_URL;
+  return path.startsWith(prefix) ? path : prefix + (path.startsWith("/") ? path.slice(1) : path);
+};
+const galleryImages = gallery.images.map(mediaPath);
+const whatsappPhone = contact.phone.replace(/\D/g, "");
+---
+<!DOCTYPE html>
+<html lang="cs" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex,nofollow">
+    <title>{home.seo_title}</title>
+    <meta name="description" content={home.seo_description}>
+    <link rel="icon" type="image/svg+xml" href={mediaPath("/favicon.svg")}>
+    
+    <!-- Security Meta Tags -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <!-- Načtení Google Fontů (Playfair + Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Globální styly přímo v souboru pro maximální přenositelnost */
+        body {
+            background-color: #fafaf9; /* stone-50 */
+            color: #1c1917; /* stone-900 */
+        }
+        .bg-bg-body { background-color: #fafaf9; }
+        .text-text-main { color: #1c1917; }
+        .text-accent { color: #B45309; }
+        .bg-accent { background-color: #B45309; }
+        .border-accent { border-color: #B45309; }
+        
+        [x-cloak] { display: none !important; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #fafaf9; }
+        ::-webkit-scrollbar-thumb { background: rgba(180, 83, 9, 0.6); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #B45309; }
+
+        @media (max-width: 768px) {
+            body { padding-bottom: 5rem; }
+        }
+        
+        .safe-area-bottom { padding-bottom: env(safe-area-inset-bottom, 0); }
+    </style>
+</head>
+<body class="font-sans antialiased" id="top">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full z-50 bg-stone-50/95 backdrop-blur-md border-b border-stone-900/5 transition-all duration-300" x-data="{ open: false }">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex justify-between items-center h-20">
+                <a href="#" class="font-serif text-2xl font-bold tracking-[0.2em] uppercase text-stone-900 hover:text-accent transition-colors">
+                    {home.brand}
+                </a>
+                <div class="hidden md:flex gap-8 items-center">
+                    <a href="#sluzby" class="text-sm uppercase tracking-widest text-stone-900/80 hover:text-accent transition-colors">Služby</a>
+                    <a href="#realizace" class="text-sm uppercase tracking-widest text-stone-900/80 hover:text-accent transition-colors">Realizace</a>
+                    <a href="#kontakt" class="text-sm uppercase tracking-widest text-stone-900/80 hover:text-accent transition-colors">Kontakt</a>
+                    <a href="#kontakt" class="px-6 py-2.5 bg-accent text-white text-sm uppercase tracking-widest rounded-sm hover:bg-accent/90 transition-all shadow-md hover:shadow-lg">
+                        Poptat výrobu
+                    </a>
+                </div>
+                <button @click="open = !open" class="md:hidden text-stone-900 hover:text-accent focus:outline-none" aria-label="Otevřít menu" title="Menu">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x-show="!open" d="M4 6h16M4 12h16M4 18h16"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" x-show="open" x-cloak d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <div x-show="open" x-transition x-cloak class="md:hidden bg-stone-50 border-b border-stone-900/5">
+            <div class="px-6 py-6 flex flex-col gap-6 text-center">
+                <a href="#sluzby" @click="open = false" class="text-lg font-serif italic text-stone-900 hover:text-accent">Služby</a>
+                <a href="#realizace" @click="open = false" class="text-lg font-serif italic text-stone-900 hover:text-accent">Realizace</a>
+                <a href="#kontakt" @click="open = false" class="text-lg font-serif italic text-stone-900 hover:text-accent">Kontakt</a>
+                <a href="#kontakt" @click="open = false" class="text-lg text-accent font-bold uppercase tracking-widest">Poptat výrobu</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO SECTION -->
+        <section class="relative h-[90vh] md:min-h-screen flex items-center md:bg-stone-900 overflow-hidden">
+            <div class="absolute inset-0 md:hidden z-0">
+                <img src={mediaPath(home.image)} alt="Detail dřeva" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/80 to-transparent"></div>
+            </div>
+            <div class="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center h-full justify-end pb-20 md:pb-0 md:justify-center">
+                <div class="w-full md:w-1/2 text-white text-center md:text-left">
+                    <div class="reveal-left opacity-0 translate-x-[-50px] transition-all duration-1000 ease-out">
+                        <span class="text-accent font-bold tracking-[0.2em] uppercase text-xs mb-4 block">{home.eyebrow}</span>
+                        <h1 class="text-4xl md:text-7xl font-serif font-bold leading-tight mb-4 drop-shadow-lg">{home.title_line_1}<br>{home.title_line_2}</h1>
+                        <p class="text-stone-300 mb-8 text-sm md:text-lg max-w-xs mx-auto md:mx-0 md:border-l-2 md:border-accent md:pl-6">
+                            {home.description}
+                        </p>
+                        <div class="flex flex-col gap-3 md:flex-row md:gap-4">
+                            <a href="#kontakt" class="w-full md:w-auto bg-accent text-white py-4 px-8 rounded-lg md:rounded-sm font-bold shadow-lg active:scale-95 transition text-center">Poptat výrobu</a>
+                            <a href="#realizace" class="w-full md:w-auto bg-white/10 backdrop-blur-md text-white border border-white/20 py-4 px-8 rounded-lg md:rounded-sm font-bold active:scale-95 transition text-center">Ukázka práce</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden md:block md:w-1/2 relative mt-12 md:mt-0">
+                    <div class="absolute top-10 right-10 w-full h-full border-2 border-stone-700 z-0 reveal-right delay-200"></div>
+                    <img src={mediaPath(home.image)} alt="Detail práce" class="relative z-10 shadow-2xl rounded-sm w-4/5 ml-auto reveal-right opacity-0 translate-x-[50px] transition-all duration-1000 ease-out">
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="o-mne" class="py-24 bg-stone-50">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-2 gap-16 items-center">
+                    <div class="order-1 relative">
+                        <div class="relative z-10 overflow-hidden shadow-xl rounded-sm">
+                            <img src={mediaPath(about.image)} alt="Vladimír Březnovský při práci" class="w-full h-auto object-cover grayscale md:h-[600px] hover:grayscale-0 transition-all duration-700" loading="lazy">
+                        </div>
+                        <div class="absolute top-6 left-6 w-full h-full border border-stone-900/10 -z-0 rounded-sm"></div>
+                    </div>
+                    <div class="order-2">
+                        <span class="text-accent uppercase tracking-[0.2em] text-xs font-bold mb-6 block">{about.eyebrow}</span>
+                        <h2 class="text-4xl md:text-5xl font-serif text-stone-900 mb-8 leading-tight">{about.title}</h2>
+                        <div class="space-y-6 text-stone-900/80 text-lg leading-relaxed font-light">
+                            {about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+                        </div>
+                        <div class="mt-12 pt-8 border-t border-stone-900/10">
+                            <span class="font-serif italic text-2xl text-stone-900">{about.signature}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES SECTION -->
+        <section id="sluzby" class="py-24 bg-white">
+            <div class="container mx-auto px-6 text-center">
+                <div class="mb-16 max-w-2xl mx-auto">
+                    <span class="text-accent uppercase tracking-[0.2em] text-xs font-bold mb-2 block">{services.eyebrow}</span>
+                    <h2 class="text-4xl font-serif text-stone-900 mb-6">{services.title}</h2>
+                    <p class="text-stone-900/70">{services.description}</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8">
+                    {services.items.map((service) => (
+                        <div class="group border border-stone-900/5 hover:border-accent/30 bg-white transition-all hover:shadow-2xl hover:-translate-y-1 rounded-sm overflow-hidden">
+                            <div class="aspect-[4/3] overflow-hidden relative">
+                                <img src={mediaPath(service.image)} alt={service.title} class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700" loading="lazy">
+                            </div>
+                            <div class="p-8 text-left">
+                                <h3 class="text-2xl font-serif mb-4 text-stone-900">{service.title}</h3>
+                                <p class="text-stone-900/70 text-sm mb-6">{service.description}</p>
+                                <ul class="text-sm space-y-2 text-stone-900/80">
+                                    {service.highlights.map((highlight) => (
+                                        <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 bg-accent rounded-full"></span>{highlight}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY SECTION (Alpine.js) -->
+        <section id="realizace" class="py-24 bg-stone-50 border-t border-stone-900/5"
+            data-images={JSON.stringify(galleryImages)}
+            x-init="images = JSON.parse($el.dataset.images)"
+            x-data="{ 
+                open: false, activeImage: '', activeIndex: 0, touchStartX: 0, touchEndX: 0,
+                images: [],
+                openGallery(index) { this.activeImage = this.images[index]; this.activeIndex = index; this.open = true; document.body.style.overflow = 'hidden'; },
+                closeGallery() { this.open = false; document.body.style.overflow = 'auto'; },
+                next() { this.activeIndex = (this.activeIndex + 1) % this.images.length; this.activeImage = this.images[this.activeIndex]; },
+                prev() { this.activeIndex = (this.activeIndex - 1 + this.images.length) % this.images.length; this.activeImage = this.images[this.activeIndex]; }
+            }"
+            @keydown.escape.window="closeGallery()"
+            @keydown.arrow-right.window="if(open) next()"
+            @keydown.arrow-left.window="if(open) prev()"
+        >
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 max-w-2xl mx-auto">
+                    <span class="text-accent uppercase tracking-[0.2em] text-xs font-bold mb-2 block">{gallery.eyebrow}</span>
+                    <h2 class="text-4xl font-serif text-stone-900 mb-6">{gallery.title}</h2>
+                    <p class="text-stone-900/70">{gallery.description}</p>
+                </div>
+                <!-- Masonry Grid -->
+                <div class="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8">
+                    <template x-for="(img, index) in images" :key="index">
+                        <div @click="openGallery(index)" class="break-inside-avoid block group relative overflow-hidden rounded-sm shadow-sm hover:shadow-xl transition-all duration-300 cursor-zoom-in bg-stone-100">
+                            <img :src="img" :alt="'Realizace ' + (index + 1)" class="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105" loading="lazy">
+                            <div class="absolute inset-0 bg-stone-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <span class="text-white font-serif text-lg tracking-wider border-b border-accent pb-1 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">Zvětšit foto</span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="#kontakt" class="inline-block px-8 py-3 border border-stone-900 text-stone-900 uppercase tracking-widest text-sm hover:bg-stone-900 hover:text-white transition-colors rounded-full font-bold">Mám zájem o podobnou realizaci</a>
+                </div>
+            </div>
+
+            <!-- Lightbox Modal -->
+            <div x-show="open" x-transition x-cloak class="fixed inset-0 z-[60] flex items-center justify-center bg-black/95 backdrop-blur-sm"
+                 @touchstart="touchStartX = $event.changedTouches[0].screenX"
+                 @touchend="touchEndX = $event.changedTouches[0].screenX; if(touchStartX - touchEndX > 50) next(); if(touchEndX - touchStartX > 50) prev();">
+                <button @click.stop="closeGallery()" class="absolute top-6 right-6 text-white hover:text-accent z-50 p-2"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                <button @click.stop="prev()" class="absolute left-4 text-white hover:text-accent p-4 z-50 hidden md:block"><svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"></path></svg></button>
+                <div class="relative max-h-[90vh] max-w-[90vw]" @click.outside="closeGallery()">
+                    <img :src="activeImage" class="max-h-[85vh] md:max-h-[90vh] max-w-[95vw] md:max-w-[90vw] object-contain rounded-sm shadow-2xl border border-white/10" alt="Detail realizace">
+                </div>
+                <button @click.stop="next()" class="absolute right-4 text-white hover:text-accent p-4 z-50 hidden md:block"><svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg></button>
+                <div class="md:hidden absolute bottom-8 left-0 w-full flex justify-center gap-12 z-50">
+                    <button @click.stop="prev()" class="text-white p-2"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"></path></svg></button>
+                    <button @click.stop="next()" class="text-white p-2"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="kontakt" class="py-24 bg-stone-900 text-stone-50">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-16">
+                    <div>
+                        <span class="text-accent uppercase tracking-[0.2em] text-xs font-bold mb-6 block">{contact.eyebrow}</span>
+                        <h2 class="text-4xl md:text-5xl font-serif mb-8 text-white">{contact.title}</h2>
+                        <p class="text-stone-400 mb-12 text-lg font-light max-w-md">{contact.description}</p>
+                        <div class="space-y-8 hidden md:block">
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-accent shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg></div>
+                                <div><h3 class="text-lg font-serif mb-1 text-white">Telefon</h3><a href={`tel:${contact.phone}`} class="text-stone-400 hover:text-accent font-mono">{contact.phone_display}</a></div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-accent shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg></div>
+                                <div><h3 class="text-lg font-serif mb-1 text-white">Email</h3><a href={`mailto:${contact.email}`} class="text-stone-400 hover:text-accent">{contact.email}</a></div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-accent shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg></div>
+                                <div><h3 class="text-lg font-serif mb-1 text-white">Sídlo</h3><address class="text-stone-400 not-italic">{contact.address}</address></div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-4 mt-8 md:hidden">
+                            <a href={`tel:${contact.phone}`} class="flex items-center gap-4 p-4 bg-white rounded-xl text-stone-900 font-bold active:bg-stone-50">Zavolat {contact.phone_display}</a>
+                            <a href={`https://wa.me/${whatsappPhone}`} class="flex items-center gap-4 p-4 bg-green-500 rounded-xl text-white font-bold active:bg-green-600">Napsat na WhatsApp</a>
+                        </div>
+                    </div>
+                    <div class="w-full bg-stone-800 p-8 rounded-lg"
+                         x-data="{
+                             loading: false,
+                             success: false,
+                             error: false,
+                             async submitForm(e) {
+                                 // In the standalone test, contact forms must never reach a real recipient.
+                                 if (e.target.dataset.preview === "true") {
+                                     this.success = true;
+                                     e.target.reset();
+                                     return;
+                                 }
+                                 this.loading = true;
+                                 this.error = false;
+                                 
+                                 const formData = new FormData(e.target);
+                                 
+                                 try {
+                                     // Odeslání na FormSubmit.co
+                                     const response = await fetch(e.target.dataset.formEndpoint, {
+                                         method: 'POST',
+                                         body: formData
+                                     });
+                                     
+                                     const result = await response.json();
+                                     
+                                     if (result.success === 'true' || response.ok) {
+                                         this.success = true;
+                                         e.target.reset();
+                                     } else {
+                                         throw new Error('Chyba odeslání');
+                                     }
+                                 } catch (err) {
+                                     console.error(err);
+                                     this.error = true;
+                                 } finally {
+                                     this.loading = false;
+                                 }
+                             }
+                         }"
+                    >
+                        <!-- Formulář -->
+                        <form @submit.prevent="submitForm" class="space-y-4" x-show="!success" data-preview="true" data-form-endpoint={`https://formsubmit.co/ajax/${contact.email}`}>
+                            
+                            <!-- Nastavení FormSubmit -->
+                            <input type="hidden" name="_subject" value="Nová poptávka z webu (Truhlářství)">
+                            <input type="hidden" name="_template" value="table"> <!-- Hezčí formát emailu -->
+                            <input type="hidden" name="_captcha" value="false"> <!-- Vypne jejich ošklivou captchu -->
+                            <input type="text" name="_honey" style="display:none"> <!-- Spam past -->
+
+                            <div>
+                                <label class="block text-xs uppercase text-stone-500 mb-1">Jméno</label>
+                                <input type="text" name="Jméno" required 
+                                       class="w-full bg-stone-700 border-none rounded-sm p-3 text-white focus:ring-2 focus:ring-amber-600 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase text-stone-500 mb-1">Email</label>
+                                <input type="email" name="Email" required 
+                                       class="w-full bg-stone-700 border-none rounded-sm p-3 text-white focus:ring-2 focus:ring-amber-600 outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs uppercase text-stone-500 mb-1">Zpráva</label>
+                                <textarea name="Zpráva" rows="4" required 
+                                          class="w-full bg-stone-700 border-none rounded-sm p-3 text-white focus:ring-2 focus:ring-amber-600 outline-none"></textarea>
+                            </div>
+
+                            <div class="flex items-start gap-2 pt-2">
+                                 <input type="checkbox" required class="mt-1 bg-stone-700 border-stone-600 text-amber-600 focus:ring-amber-600 rounded">
+                                 <label class="text-xs text-stone-500">Souhlasím se zpracováním osobních údajů.</label>
+                            </div>
+
+                            <button type="submit" :disabled="loading" 
+                                    class="w-full bg-amber-700 hover:bg-amber-600 text-white font-bold py-3 rounded-sm transition flex justify-center items-center disabled:opacity-50">
+                                <span x-show="!loading">Odeslat poptávku</span>
+                                <span x-show="loading" class="animate-spin h-5 w-5 border-2 border-white border-t-transparent rounded-full"></span>
+                            </button>
+                            
+                            <p x-show="error" class="text-red-400 text-sm mt-2 text-center" style="display: none;">Chyba při odesílání.</p>
+                        </form>
+
+                        <!-- Success Message -->
+                        <div x-show="success" class="text-center py-10" style="display: none;">
+                            <div class="text-green-500 text-5xl mb-4">✓</div>
+                            <h3 class="text-xl text-white font-bold mb-2">Testovací režim</h3>
+                            <p class="text-stone-400 mb-4">Zpráva se z této testovací kopie neodesílá.</p>
+                            <button @click="success = false" class="mt-2 text-amber-600 hover:text-amber-500 underline text-sm">Zpět</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-stone-950 text-stone-500 py-8 text-xs text-center border-t border-stone-900 pb-24 md:pb-8">
+        <p class="font-bold text-stone-400">&copy; 2026 Vladimír Březnovský</p>
+        
+        <!-- ZDE JE TO IČO A ADRESA -->
+        <p class="mt-2">
+            IČO: {contact.ico} <span class="mx-2">|</span> Sídlo: {contact.address}
+        </p>
+        <p class="mt-1 opacity-70">Fyzická osoba zapsaná v živnostenském rejstříku.</p>
+
+        <p class="mt-4 opacity-40">Web používá pouze technické cookies.</p>
+    </footer>
+
+    <!-- MOBILE NAV -->
+    <nav class="fixed bottom-0 left-0 w-full bg-stone-900 border-t border-stone-800 z-50 md:hidden safe-area-bottom">
+        <div class="grid grid-cols-4 h-16 items-center text-xs text-stone-400">
+            <a href="#" class="flex flex-col items-center justify-center">Domů</a>
+            <a href="#realizace" class="flex flex-col items-center justify-center">Práce</a>
+            <a href={`tel:${contact.phone}`} class="flex flex-col items-center justify-center text-accent font-bold">Volat</a>
+            <a href={`https://wa.me/${whatsappPhone}`} class="flex flex-col items-center justify-center">WhatsApp</a>
+        </div>
+    </nav>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('opacity-0', 'translate-x-[-50px]', 'translate-x-[50px]');
+                    entry.target.classList.add('opacity-100', 'translate-x-0');
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.reveal-left, .reveal-right').forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Pozadí: Čtverec se zaoblenými rohy v barvě dřeva (amber-700) -->
+  <rect x="0" y="0" width="64" height="64" rx="12" fill="#B45309"/>
+  
+  <!-- Písmeno B: Patkové, bílé, vycentrované -->
+  <text x="50%" y="50%" dy=".35em" text-anchor="middle" 
+        font-family="Georgia, 'Times New Roman', serif" 
+        font-weight="bold" 
+        font-size="42" 
+        fill="white">B</text>
+</svg>

@@ -1,0 +1,108 @@
+# Samostatný testovací repozitář: xaspi7/truhlar-breznovsky-cms-test.
+# PŘIHLÁŠENÍ: Založ testovací web na https://decapbridge.com/ a nahraď
+# pouze nastavení backendu níže vygenerovaným blokem ze služby DecapBridge.
+# Vždy zachovej branch: main. Nikdy nenastav main!
+# Pro testování bez přihlášení na vlastním počítači spusť npx decap-server.
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+media_folder: public/images
+public_folder: /truhlar-breznovsky-cms-test/images
+locale: cs
+site_url: https://xaspi7.github.io/truhlar-breznovsky-cms-test
+show_preview_links: false
+
+collections:
+  - name: home
+    label: Úvodní stránka
+    files:
+      - name: home
+        label: Úvodní stránka
+        file: src/data/home.json
+        format: json
+        fields:
+          - { name: brand, label: Název v navigaci, widget: string }
+          - { name: eyebrow, label: Jméno nad hlavním nadpisem, widget: string }
+          - { name: title_line_1, label: Nadpis – první řádek, widget: string }
+          - { name: title_line_2, label: Nadpis – druhý řádek, widget: string }
+          - { name: description, label: Úvodní text, widget: text }
+          - { name: image, label: Hlavní fotografie, widget: image }
+          - { name: seo_title, label: SEO – titulek stránky, widget: string }
+          - { name: seo_description, label: SEO – popis stránky, widget: text }
+
+  - name: about
+    label: O mně
+    files:
+      - name: about
+        label: O mně
+        file: src/data/about.json
+        format: json
+        fields:
+          - { name: eyebrow, label: Popisek sekce, widget: string }
+          - { name: title, label: Nadpis, widget: string }
+          - { name: image, label: Fotografie, widget: image }
+          - name: paragraphs
+            label: Odstavce
+            widget: list
+            field: { name: text, label: Odstavec, widget: text }
+          - { name: signature, label: Podpis, widget: string }
+
+  - name: services
+    label: Služby
+    files:
+      - name: services
+        label: Služby
+        file: src/data/services.json
+        format: json
+        fields:
+          - { name: eyebrow, label: Popisek sekce, widget: string }
+          - { name: title, label: Nadpis, widget: string }
+          - { name: description, label: Úvodní text, widget: text }
+          - name: items
+            label: Seznam služeb
+            label_singular: Služba
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { name: title, label: Název služby, widget: string }
+              - { name: description, label: Popis služby, widget: text }
+              - { name: image, label: Fotografie, widget: image }
+              - name: highlights
+                label: Výhody / body
+                widget: list
+                field: { name: point, label: Bod, widget: string }
+
+  - name: gallery
+    label: Realizace a galerie
+    files:
+      - name: gallery
+        label: Realizace a galerie
+        file: src/data/gallery.json
+        format: json
+        fields:
+          - { name: eyebrow, label: Popisek sekce, widget: string }
+          - { name: title, label: Nadpis, widget: string }
+          - { name: description, label: Úvodní text, widget: text }
+          - name: images
+            label: Fotografie (pořadí lze měnit)
+            widget: list
+            field: { name: image, label: Fotografie, widget: image }
+
+  - name: contact
+    label: Kontakt
+    files:
+      - name: contact
+        label: Kontakt
+        file: src/data/contact.json
+        format: json
+        fields:
+          - { name: eyebrow, label: Popisek sekce, widget: string }
+          - { name: title, label: Nadpis, widget: string }
+          - { name: description, label: Úvodní text, widget: text }
+          - { name: phone, label: Telefon pro odkazy (např. +420737730514), widget: string }
+          - { name: phone_display, label: Zobrazovaný telefon, widget: string }
+          - { name: email, label: E-mail (i pro poptávkový formulář), widget: string }
+          - { name: address, label: Adresa, widget: string }
+          - { name: ico, label: IČO, widget: string }
