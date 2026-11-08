@@ -20,6 +20,7 @@ jobs:
         run: rsync -a --exclude='.git' --exclude='.github/workflows/' /tmp/breznovsky-cms-source/ ./
       - name: Make sandbox independent and safe
         run: |
+          python3 - <<'PY'
           from pathlib import Path
           
           # Never deploy this test repository to the production domain.
