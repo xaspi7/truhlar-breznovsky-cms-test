@@ -264,7 +264,7 @@ const whatsappPhone = contact.phone.replace(/\D/g, "");
                              error: false,
                              async submitForm(e) {
                                  // In the standalone test, contact forms must never reach a real recipient.
-                                 if (e.target.dataset.preview === "true") {
+                                 if (e.target.dataset.preview === 'true') {
                                      this.success = true;
                                      e.target.reset();
                                      return;
