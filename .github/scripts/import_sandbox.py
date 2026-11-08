@@ -11,11 +11,9 @@ p = Path("src/pages/index.astro")
 s = p.read_text()
 anchor = "const galleryImages = gallery.images;"
 assert s.count(anchor) == 1
-s = s.replace(anchor, '''const siteBase = import.meta.env.BASE_URL;
-const mediaPath = (path: string): string => {
-  const prefix = siteBase.endsWith("/") ? siteBase : siteBase + "/";
-  if (path.startsWith(prefix)) return path;
-  return prefix + path.replace(/^\\/+/, "");
+s = s.replace(anchor, '''const mediaPath = (path) => {
+  const prefix = import.meta.env.BASE_URL;
+  return path.startsWith(prefix) ? path : prefix + (path.startsWith("/") ? path.slice(1) : path);
 };
 const galleryImages = gallery.images.map(mediaPath);''')
 for original, replacement, expected in [
@@ -34,10 +32,19 @@ s = s.replace('async submitForm(e) {', '''async submitForm(e) {
                                      e.target.reset();
                                      return;
                                  }''')
-s = s.replace('data-form-endpoint={\`https://formsubmit.co/ajax/\${contact.email}\`}', 'data-preview="true" data-form-endpoint={\`https://formsubmit.co/ajax/\${contact.email}\`}')
+assert s.count('data-form-endpoint=') == 1
+s = s.replace('data-form-endpoint=', 'data-preview="true" data-form-endpoint=')
 s = s.replace('>Odesláno!</h3>', '>Testovací režim</h3>')
 s = s.replace('Potvrďte prosím aktivaci ve svém emailu (pouze poprvé).', 'Zpráva se z této testovací kopie neodesílá.')
+s = s.replace("../content/", "../data/")
 p.write_text(s)
+
+content_directory = Path("src/content")
+data_directory = Path("src/data")
+data_directory.mkdir(exist_ok=True)
+for item in content_directory.glob("*.json"):
+    item.rename(data_directory / item.name)
+content_directory.rmdir()
 
 config = Path("public/admin/config.yml")
 c = config.read_text()
@@ -46,6 +53,7 @@ c = c.replace('branch: cms-sandbox', 'branch: main')
 c = c.replace('https://breznovskytruhlar.cz', 'https://xaspi7.github.io/truhlar-breznovsky-cms-test')
 c = c.replace('public_folder: /images', 'public_folder: /truhlar-breznovsky-cms-test/images')
 c = c.replace('# Testovací konfigurace pro větev cms-sandbox.', '# Samostatný testovací repozitář: xaspi7/truhlar-breznovsky-cms-test.')
+c = c.replace('src/content/', 'src/data/')
 config.write_text(c)
 
 Path("public/robots.txt").write_text("User-agent: *\nDisallow: /\n")
@@ -55,7 +63,7 @@ Path("README-CMS.md").write_text("""# Webyss CMS – samostatná testovací kopi
 Tento repozitář je samostatný experiment s Decap CMS pro Truhlářství Březnovský. Je oddělený od živého webu \`breznovskytruhlar.cz\` a původního repozitáře.
 
 ## Co funguje
-- Astro web sestavený z upravitelných JSON souborů v \`src/content/\`
+- Astro web sestavený z upravitelných JSON souborů v \`src/data/\`
 - CMS formuláře v \`public/admin/config.yml\` pro úvodní texty, O mně, služby, galerii a kontakt
 - Příprava pro GitHub Pages na cestě \`/truhlar-breznovsky-cms-test/\`
 - Testovací kontaktní formulář nic neodesílá; robots.txt zakazuje indexaci
