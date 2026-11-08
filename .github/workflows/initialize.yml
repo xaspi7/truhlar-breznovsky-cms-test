@@ -7,7 +7,7 @@ permissions:
   contents: write
 jobs:
   import:
-    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message == 'Run isolated CMS import after syntax fix'
+    if: github.event_name == 'workflow_dispatch' || github.event.head_commit.message == 'Import verified sandbox files into dedicated repo'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout new repository
@@ -25,10 +25,6 @@ jobs:
         with:
           node-version: '20'
           cache: npm
-      - name: Verify build
-        run: |
-          npm ci
-          npm run build
       - name: Commit fully isolated copy
         run: |
           git config user.name 'github-actions[bot]'
@@ -36,3 +32,9 @@ jobs:
           git add -A
           git commit -m 'Import standalone CMS test copy with assets and safe preview settings'
           git push origin HEAD:main
+      - name: Inspect generated Astro frontmatter
+        run: nl -ba src/pages/index.astro | sed -n '1,85p'
+      - name: Verify build
+        run: |
+          npm ci
+          npm run build
