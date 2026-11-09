@@ -4,6 +4,22 @@
  */
 (() => {
   "use strict";
+  // Decap's own back arrow returns from a form to a redundant collection page.
+  // After a *completed* route change, send that one-step-back action to our
+  // Webyss dashboard. Listening to hashchange (rather than hijacking clicks)
+  // preserves Decap's built-in unsaved-changes confirmation.
+  const isEditor = hash => /^#\/(?:edit\/(?:gallery|services|home|about|contact)\/[^/?]+|collections\/(?:gallery|services|home|about|contact)\/entries\/[^/?]+)/.test(hash);
+  const isCollectionList = hash => /^#\/collections\/(?:gallery|services|home|about|contact)(?:\/entries)?\/?(?:\?.*)?$/.test(hash);
+  let previousEditorHash = window.location.hash;
+  window.addEventListener("hashchange", () => {
+    const nextHash = window.location.hash;
+    if (isEditor(previousEditorHash) && isCollectionList(nextHash)) {
+      window.location.replace("./home.html");
+      return;
+    }
+    previousEditorHash = nextHash;
+  });
+
   const mediaPrefix = "/truhlar-breznovsky-cms-test";
   const mobile = window.matchMedia("(max-width: 820px)");
   const galleryRoute = () => /\/(?:edit|collections)\/gallery(?:\/|$)/.test(window.location.hash);
