@@ -293,8 +293,7 @@
     max-width: calc(100vw - 16px) !important;
     max-height: calc(100dvh - 25px) !important;
     overflow: auto !important;
-    left: 50% !important;
-    transform: translateX(-50%);
+    /* Preserve Decap's native dialog centering and media-picker behavior. */
   }
   .webyss-editor [class*="DropdownList"] {
     max-width: calc(100vw - 30px) !important;
