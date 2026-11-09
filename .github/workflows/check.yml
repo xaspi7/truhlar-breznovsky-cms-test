@@ -18,5 +18,7 @@ jobs:
           cache: npm
       - name: Install
         run: npm ci
+      - name: Verify admin JavaScript syntax
+        run: node --check public/admin/editor-mobile.js
       - name: Validate Astro build
         run: npm run build
