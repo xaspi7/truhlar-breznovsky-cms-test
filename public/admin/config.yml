@@ -31,96 +31,133 @@ public_folder: /truhlar-breznovsky-cms-test/images
 locale: cs
 site_url: https://xaspi7.github.io/truhlar-breznovsky-cms-test/
 show_preview_links: false
+search: false
+editor:
+  preview: false
 
 collections:
-  - name: home
-    label: Úvodní stránka
-    files:
-      - name: home
-        label: Úvodní stránka
-        file: src/data/home.json
-        format: json
-        fields:
-          - { name: brand, label: Název v navigaci, widget: string }
-          - { name: eyebrow, label: Jméno nad hlavním nadpisem, widget: string }
-          - { name: title_line_1, label: Nadpis – první řádek, widget: string }
-          - { name: title_line_2, label: Nadpis – druhý řádek, widget: string }
-          - { name: description, label: Úvodní text, widget: text }
-          - { name: image, label: Hlavní fotografie, widget: image }
-          - { name: seo_title, label: SEO – titulek stránky, widget: string }
-          - { name: seo_description, label: SEO – popis stránky, widget: text }
-
-  - name: about
-    label: O mně
-    files:
-      - name: about
-        label: O mně
-        file: src/data/about.json
-        format: json
-        fields:
-          - { name: eyebrow, label: Popisek sekce, widget: string }
-          - { name: title, label: Nadpis, widget: string }
-          - { name: image, label: Fotografie, widget: image }
-          - name: paragraphs
-            label: Odstavce
-            widget: list
-            field: { name: text, label: Odstavec, widget: text }
-          - { name: signature, label: Podpis, widget: string }
-
-  - name: services
-    label: Služby
-    files:
-      - name: services
-        label: Služby
-        file: src/data/services.json
-        format: json
-        fields:
-          - { name: eyebrow, label: Popisek sekce, widget: string }
-          - { name: title, label: Nadpis, widget: string }
-          - { name: description, label: Úvodní text, widget: text }
-          - name: items
-            label: Seznam služeb
-            label_singular: Služba
-            widget: list
-            summary: "{{fields.title}}"
-            fields:
-              - { name: title, label: Název služby, widget: string }
-              - { name: description, label: Popis služby, widget: text }
-              - { name: image, label: Fotografie, widget: image }
-              - name: highlights
-                label: Výhody / body
-                widget: list
-                field: { name: point, label: Bod, widget: string }
-
   - name: gallery
-    label: Realizace a galerie
+    label: "1. Fotogalerie"
+    description: "Přidávání, odebírání a řazení fotografií realizací."
+    delete: false
     files:
       - name: gallery
-        label: Realizace a galerie
+        label: "Upravit fotografie na webu"
+        description: "Fotografie se zobrazují v sekci Realizace."
         file: src/data/gallery.json
         format: json
+        editor:
+          preview: false
         fields:
-          - { name: eyebrow, label: Popisek sekce, widget: string }
-          - { name: title, label: Nadpis, widget: string }
-          - { name: description, label: Úvodní text, widget: text }
           - name: images
-            label: Fotografie (pořadí lze měnit)
+            label: "Fotografie realizací"
             widget: list
-            field: { name: image, label: Fotografie, widget: image }
+            label_singular: "fotografii"
+            collapsed: true
+            add_to_top: true
+            summary: "{{fields.image}}"
+            hint: "Klikni na přidání fotografie a vyber obrázek. Položky můžeš přeuspořádat nebo odstranit. Nakonec změny publikuj."
+            field:
+              name: image
+              label: "Fotografie"
+              widget: image
+          - { name: title, label: "Nadpis nad galerií", widget: string }
+          - { name: description, label: "Krátký popis galerie", widget: text }
+          - { name: eyebrow, label: "Malý popisek nad nadpisem", widget: string }
+
+  - name: services
+    label: "2. Služby"
+    description: "Uprav, přidej nebo odeber služby."
+    delete: false
+    files:
+      - name: services
+        label: "Upravit nabídku služeb"
+        file: src/data/services.json
+        format: json
+        editor:
+          preview: false
+        fields:
+          - name: items
+            label: "Nabízené služby"
+            widget: list
+            label_singular: "službu"
+            collapsed: true
+            summary: "{{fields.title}}"
+            hint: "Každá položka je jedna karta služby na webu. Klikni na službu pro úpravu, nebo přidej novou."
+            fields:
+              - { name: title, label: "Název služby", widget: string }
+              - { name: image, label: "Fotografie služby", widget: image }
+              - { name: description, label: "Popis služby", widget: text }
+              - name: highlights
+                label: "Krátké body pod službou"
+                widget: list
+                label_singular: "bod"
+                field: { name: point, label: "Bod", widget: string }
+          - { name: title, label: "Nadpis celé sekce služeb", widget: string }
+          - { name: description, label: "Úvodní text nad službami", widget: text }
+          - { name: eyebrow, label: "Malý popisek nad nadpisem", widget: string }
+
+  - name: home
+    label: "3. Úvod"
+    description: "Hlavní nadpis, úvodní fotografie a texty."
+    delete: false
+    files:
+      - name: home
+        label: "Upravit úvodní stránku"
+        file: src/data/home.json
+        format: json
+        editor:
+          preview: false
+        fields:
+          - { name: title_line_1, label: "Hlavní nadpis – první řádek", widget: string }
+          - { name: title_line_2, label: "Hlavní nadpis – druhý řádek", widget: string }
+          - { name: description, label: "Úvodní text pod nadpisem", widget: text }
+          - { name: image, label: "Hlavní fotografie webu", widget: image }
+          - { name: eyebrow, label: "Jméno nad hlavním nadpisem", widget: string }
+          - { name: brand, label: "Název vlevo v horním menu", widget: string }
+          - { name: seo_title, label: "Google – titulek stránky", widget: string, hint: "Text, který se obvykle zobrazuje jako název výsledku ve vyhledávači." }
+          - { name: seo_description, label: "Google – popis stránky", widget: text, hint: "Krátký popis webu pro vyhledávače." }
+
+  - name: about
+    label: "4. O mně"
+    description: "Fotografie a texty o truhláři."
+    delete: false
+    files:
+      - name: about
+        label: "Upravit informace o mně"
+        file: src/data/about.json
+        format: json
+        editor:
+          preview: false
+        fields:
+          - { name: title, label: "Nadpis sekce", widget: string }
+          - { name: image, label: "Fotografie v sekci O mně", widget: image }
+          - name: paragraphs
+            label: "Odstavce textu"
+            widget: list
+            label_singular: "odstavec"
+            hint: "Každá položka představuje jeden odstavec. Lze přidávat, upravovat a řadit."
+            field: { name: text, label: "Text odstavce", widget: text }
+          - { name: signature, label: "Podpis pod textem", widget: string }
+          - { name: eyebrow, label: "Malý popisek nad nadpisem", widget: string }
 
   - name: contact
-    label: Kontakt
+    label: "5. Kontakt"
+    description: "Telefon, e-mail, adresa a kontaktní texty."
+    delete: false
     files:
       - name: contact
-        label: Kontakt
+        label: "Upravit kontaktní údaje"
         file: src/data/contact.json
         format: json
+        editor:
+          preview: false
         fields:
-          - { name: eyebrow, label: Popisek sekce, widget: string }
-          - { name: title, label: Nadpis, widget: string }
-          - { name: description, label: Úvodní text, widget: text }
-          - { name: phone, label: Telefon pro odkazy (např. +420737730514), widget: string }
-          - { name: phone_display, label: Zobrazovaný telefon, widget: string }
-          - { name: email, label: E-mail (i pro poptávkový formulář), widget: string }
-          - { name: address, label: Adresa, widget: string }
-          - { name: ico, label: IČO, widget: string }
+          - { name: phone_display, label: "Telefon – jak se zobrazí na webu", widget: string, hint: "Například +420 737 730 514." }
+          - { name: phone, label: "Telefon pro kliknutí a volání", widget: string, hint: "Stejné telefonní číslo bez mezer, např. +420737730514." }
+          - { name: email, label: "Kontaktní e-mail", widget: string, hint: "Na tuto adresu směřuje také poptávkový formulář produkčního webu." }
+          - { name: address, label: "Adresa", widget: string }
+          - { name: ico, label: "IČO", widget: string }
+          - { name: title, label: "Nadpis kontaktní sekce", widget: string }
+          - { name: description, label: "Text pod kontaktním nadpisem", widget: text }
+          - { name: eyebrow, label: "Malý popisek nad nadpisem", widget: string }
