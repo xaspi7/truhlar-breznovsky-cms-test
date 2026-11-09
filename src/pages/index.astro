@@ -13,7 +13,9 @@ const mediaPath = (path) => {
   return path.startsWith(prefix) ? path : prefix + path.replace(/^\/+/, "");
 };
 const galleryImages = gallery.images.map(mediaPath);
-const whatsappPhone = contact.phone.replace(/\D/g, "");
+// One phone number is enough in the CMS. Links are generated automatically.
+const phoneForLinks = contact.phone_display.replace(/[^+\d]/g, "");
+const whatsappPhone = contact.phone_display.replace(/\D/g, "");
 ---
 <!DOCTYPE html>
 <html lang="cs" class="scroll-smooth">
@@ -243,7 +245,7 @@ const whatsappPhone = contact.phone.replace(/\D/g, "");
                         <div class="space-y-8 hidden md:block">
                             <div class="flex items-start gap-4">
                                 <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-accent shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg></div>
-                                <div><h3 class="text-lg font-serif mb-1 text-white">Telefon</h3><a href={`tel:${contact.phone}`} class="text-stone-400 hover:text-accent font-mono">{contact.phone_display}</a></div>
+                                <div><h3 class="text-lg font-serif mb-1 text-white">Telefon</h3><a href={`tel:${phoneForLinks}`} class="text-stone-400 hover:text-accent font-mono">{contact.phone_display}</a></div>
                             </div>
                             <div class="flex items-start gap-4">
                                 <div class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center text-accent shrink-0"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg></div>
@@ -255,7 +257,7 @@ const whatsappPhone = contact.phone.replace(/\D/g, "");
                             </div>
                         </div>
                         <div class="grid grid-cols-1 gap-4 mt-8 md:hidden">
-                            <a href={`tel:${contact.phone}`} class="flex items-center gap-4 p-4 bg-white rounded-xl text-stone-900 font-bold active:bg-stone-50">Zavolat {contact.phone_display}</a>
+                            <a href={`tel:${phoneForLinks}`} class="flex items-center gap-4 p-4 bg-white rounded-xl text-stone-900 font-bold active:bg-stone-50">Zavolat {contact.phone_display}</a>
                             <a href={`https://wa.me/${whatsappPhone}`} class="flex items-center gap-4 p-4 bg-green-500 rounded-xl text-white font-bold active:bg-green-600">Napsat na WhatsApp</a>
                         </div>
                     </div>
@@ -369,7 +371,7 @@ const whatsappPhone = contact.phone.replace(/\D/g, "");
         <div class="grid grid-cols-4 h-16 items-center text-xs text-stone-400">
             <a href="#" class="flex flex-col items-center justify-center">Domů</a>
             <a href="#realizace" class="flex flex-col items-center justify-center">Práce</a>
-            <a href={`tel:${contact.phone}`} class="flex flex-col items-center justify-center text-accent font-bold">Volat</a>
+            <a href={`tel:${phoneForLinks}`} class="flex flex-col items-center justify-center text-accent font-bold">Volat</a>
             <a href={`https://wa.me/${whatsappPhone}`} class="flex flex-col items-center justify-center">WhatsApp</a>
         </div>
     </nav>
