@@ -153,8 +153,9 @@ collections:
         editor:
           preview: false
         fields:
-          - { name: phone_display, label: "Telefon – jak se zobrazí na webu", widget: string, hint: "Například +420 737 730 514." }
-          - { name: phone, label: "Telefon pro kliknutí a volání", widget: string, hint: "Stejné telefonní číslo bez mezer, např. +420737730514." }
+          - { name: phone_display, label: "Telefonní číslo", widget: string, hint: "Stačí vyplnit jednou. Tlačítka pro volání a WhatsApp se nastaví automaticky." }
+          # Zachováme původní hodnotu v JSON, ale klient ji nemusí vyplňovat dvakrát.
+          - { name: phone, label: "Technické číslo (zachováno)", widget: hidden, required: false }
           - { name: email, label: "Kontaktní e-mail", widget: string, hint: "Na tuto adresu směřuje také poptávkový formulář produkčního webu." }
           - { name: address, label: "Adresa", widget: string }
           - { name: ico, label: "IČO", widget: string }
