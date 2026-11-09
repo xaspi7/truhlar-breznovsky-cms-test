@@ -6,9 +6,11 @@ import gallery from "../data/gallery.json";
 import contact from "../data/contact.json";
 
 // Obsah načítáme z JSON souborů, které upravuje Decap CMS.
+// GitHub Pages provozuje testovací web pod /truhlar-breznovsky-cms-test/.
+// BASE_URL může, ale nemusí, končit lomítkem. Sjednotíme obě možnosti.
 const mediaPath = (path) => {
-  const prefix = import.meta.env.BASE_URL;
-  return path.startsWith(prefix) ? path : prefix + (path.startsWith("/") ? path.slice(1) : path);
+  const prefix = import.meta.env.BASE_URL.replace(/\/+$/, "") + "/";
+  return path.startsWith(prefix) ? path : prefix + path.replace(/^\/+/, "");
 };
 const galleryImages = gallery.images.map(mediaPath);
 const whatsappPhone = contact.phone.replace(/\D/g, "");
