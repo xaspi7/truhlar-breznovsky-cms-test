@@ -1,0 +1,96 @@
+# Pages CMS — alternative to Decap for the Webyss CMS test.
+# This file does NOT disable Decap or DecapBridge.
+# Only the standalone test repository is connected.
+media:
+  input: public/images
+  output: /images
+  categories: [image]
+  rename: safe
+
+settings:
+  hide: true
+  content:
+    merge: true
+
+content:
+  - name: gallery
+    label: "Fotogalerie"
+    type: file
+    path: src/data/gallery.json
+    format: json
+    fields:
+      - name: images
+        label: "Fotografie realizací"
+        type: image
+        options:
+          multiple:
+            max: 100
+      - { name: title, label: "Nadpis galerie", type: string }
+      - { name: description, label: "Popis galerie", type: text }
+      - { name: eyebrow, label: "Krátký popisek", type: string }
+
+  - name: services
+    label: "Služby"
+    type: file
+    path: src/data/services.json
+    format: json
+    fields:
+      - name: items
+        label: "Nabízené služby"
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - { name: title, label: "Název služby", type: string }
+          - { name: image, label: "Fotografie", type: image }
+          - { name: description, label: "Popis", type: text }
+          - name: highlights
+            label: "Krátké body"
+            type: string
+            list: true
+      - { name: title, label: "Nadpis celé sekce", type: string }
+      - { name: description, label: "Úvodní text", type: text }
+      - { name: eyebrow, label: "Krátký popisek", type: string }
+
+  - name: home
+    label: "Úvodní stránka"
+    type: file
+    path: src/data/home.json
+    format: json
+    fields:
+      - { name: title_line_1, label: "Nadpis – první řádek", type: string }
+      - { name: title_line_2, label: "Nadpis – druhý řádek", type: string }
+      - { name: description, label: "Úvodní text", type: text }
+      - { name: image, label: "Hlavní fotografie", type: image }
+      - { name: eyebrow, label: "Jméno nad nadpisem", type: string }
+      - { name: brand, label: "Název v menu", type: string }
+      - { name: seo_title, label: "Název ve vyhledávači", type: string }
+      - { name: seo_description, label: "Popis ve vyhledávači", type: text }
+
+  - name: about
+    label: "O mně"
+    type: file
+    path: src/data/about.json
+    format: json
+    fields:
+      - { name: title, label: "Nadpis", type: string }
+      - { name: image, label: "Fotografie", type: image }
+      - { name: paragraphs, label: "Odstavce", type: text, list: true }
+      - { name: signature, label: "Podpis", type: string }
+      - { name: eyebrow, label: "Krátký popisek", type: string }
+
+  - name: contact
+    label: "Kontakt"
+    type: file
+    path: src/data/contact.json
+    format: json
+    fields:
+      - { name: phone_display, label: "Telefon", type: string }
+      - { name: email, label: "E-mail", type: string }
+      - { name: address, label: "Adresa", type: string }
+      - { name: ico, label: "IČO", type: string }
+      - { name: title, label: "Nadpis kontaktu", type: string }
+      - { name: description, label: "Úvodní text", type: text }
+      - { name: eyebrow, label: "Krátký popisek", type: string }
