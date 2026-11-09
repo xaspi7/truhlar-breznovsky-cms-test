@@ -1,12 +1,28 @@
 <!doctype html>
 <html lang="cs">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="noindex,nofollow" />
-    <title>Administrace | Truhlářství Březnovský</title>
-  </head>
-  <body>
-    <script src="https://unpkg.com/decap-cms@3.17.3/dist/decap-cms.js"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#151d38">
+  <title>Upravit obsah | Webyss Admin</title>
+  <link rel="stylesheet" href="./theme.css?v=1">
+  <script>
+    // /admin/ opens a mobile-friendly dashboard. /admin/index.html stays
+    // the real Decap entrypoint so OAuth/PKCE callbacks continue to work.
+    // Preserve URL hash and query on auth callbacks and deep links.
+    if (location.pathname.endsWith("/admin/") && !location.hash && !location.search) {
+      location.replace("./home.html");
+    }
+  </script>
+</head>
+<body class="webyss-editor">
+  <nav class="webyss-editor-strip" aria-label="Navigace administrace">
+    <a href="./home.html" aria-label="Zpět na přehled administrace">← Přehled</a>
+    <span class="webyss-editor-label">WEBYSS ADMIN <span class="webyss-editor-site">/ Březnovský · TEST</span></span>
+    <a href="../" target="_blank" rel="noopener noreferrer">Web ↗</a>
+  </nav>
+  <!-- Authentication, editing and publishing are still handled by Decap CMS. -->
+  <script src="https://unpkg.com/decap-cms@3.17.3/dist/decap-cms.js"></script>
+</body>
 </html>
